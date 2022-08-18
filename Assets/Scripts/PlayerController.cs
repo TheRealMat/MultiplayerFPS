@@ -25,6 +25,11 @@ public class PlayerController : NetworkBehaviour
         controller = GetComponent<CharacterController>();
     }
 
+    public override void OnNetworkSpawn()
+    {
+        if (!IsOwner) Destroy(this);
+    }
+
     void Update()
     {
         if (controller.isGrounded && playerVelocity.y < 0)

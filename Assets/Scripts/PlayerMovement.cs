@@ -4,14 +4,12 @@ using UnityEngine;
 using Unity.Netcode;
 
 [RequireComponent(typeof(CharacterController))]
-public class PlayerController : NetworkBehaviour
+public class PlayerMovement : NetworkBehaviour
 {
     CharacterController controller;
 
-    [SerializeField]
-    float walkSpeed = 0.1f;
-    [SerializeField]
-    float jumpHeight = 1.0f;
+    [SerializeField] float walkSpeed = 0.1f;
+    [SerializeField] float jumpHeight = 1.0f;
 
     float horizontalInput;
     float verticalInput;

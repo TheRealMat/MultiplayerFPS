@@ -6,8 +6,7 @@ using Unity.Netcode;
 [RequireComponent(typeof(Camera))]
 public class PlayerCamera : NetworkBehaviour
 {
-    [SerializeField]
-    float sensitivity = 100f;
+    [SerializeField] float sensitivity = 100f;
 
     Vector2 rotation;
 

@@ -14,12 +14,15 @@ public class PlayerCamera : NetworkBehaviour
     {
         if (!IsOwner)
         {
-            Destroy(this.gameObject);
+
+            this.gameObject.SetActive(false);
         } 
     }
 
     void Update()
     {
+        if (!IsOwner) return;
+
         float mouseX = Input.GetAxisRaw("Mouse X") * Time.deltaTime * sensitivity;
         float mouseY = Input.GetAxisRaw("Mouse Y") * Time.deltaTime * sensitivity;
 

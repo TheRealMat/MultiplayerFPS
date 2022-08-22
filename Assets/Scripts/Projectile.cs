@@ -1,8 +1,9 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Unity.Netcode;
 
-public class Projectile : MonoBehaviour
+public class Projectile : NetworkBehaviour
 {
     //[SerializeField] float dropoff = -9.81f;
     [SerializeField] float projectilespeed = 10;
@@ -14,6 +15,7 @@ public class Projectile : MonoBehaviour
 
     private void Start()
     {
+        if (!IsServer) return;
         Destroy(gameObject, projectileLifetime);
     }
     private void Update()
@@ -23,6 +25,7 @@ public class Projectile : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
+        if (!IsServer) return;
         // fix this later
         if(other.gameObject.tag == "Player")
         {

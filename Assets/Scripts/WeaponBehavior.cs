@@ -1,9 +1,10 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Unity.Netcode;
 using UnityEngine.UIElements;
 
-public class WeaponBehavior : MonoBehaviour
+public class WeaponBehavior : NetworkBehaviour
 {
 
     enum FireType
@@ -14,6 +15,11 @@ public class WeaponBehavior : MonoBehaviour
         none
     };
     [SerializeField] FireType firetype;
+
+    public override void OnNetworkSpawn()
+    {
+        //if (!IsOwner) Destroy(this);
+    }
 
     enum ProjectileType
     {
@@ -52,6 +58,7 @@ public class WeaponBehavior : MonoBehaviour
     // this should be handled by events
     private void Update()
     {
+        if (!IsOwner) return;
         switch (firetype)
         {
             case FireType.none:
@@ -64,7 +71,7 @@ public class WeaponBehavior : MonoBehaviour
                 if (Time.time - lastFired >= fireDelay)
                 {
                     lastFired = Time.time;
-                    fire();
+                    Fire();
                 }
                 break;
             case FireType.burst:
@@ -75,7 +82,7 @@ public class WeaponBehavior : MonoBehaviour
                     {
                         lastFired = Time.time;
                         shotsFired++;
-                        fire();
+                        Fire();
                         return;
                     }
                 }
@@ -86,7 +93,7 @@ public class WeaponBehavior : MonoBehaviour
                     {
                         shotsFired++;
                         lastFired = Time.time;
-                        fire();
+                        Fire();
                         if (shotsFired >= burstAmount)
                         {
                             shotsFired = 0;
@@ -102,12 +109,12 @@ public class WeaponBehavior : MonoBehaviour
                 if (Time.time - lastFired >= fireRate)
                 {
                     lastFired = Time.time;
-                    fire();
+                    Fire();
                 }
                 break;
         }
     }
-    void fire()
+    void Fire()
     {
         for (int i = 0; i < roundsPerShot; i++)
         {
@@ -115,14 +122,29 @@ public class WeaponBehavior : MonoBehaviour
                 case ProjectileType.none:
                     break;
                 case ProjectileType.projectile:
-                    GameObject projectile = Instantiate(projectilePrefab, transform.position, transform.rotation);
-                    projectile.transform.Rotate(Spread());
+                    FireServerRpc(transform.position, transform.rotation);
+                    // fake projectile?
                     break;
                 case ProjectileType.hitscan:
                     // TODO
                     break;
             }
         }
+    }
+    [ServerRpc]
+    void FireServerRpc(Vector3 position, Quaternion rotation)
+    {
+        // fire the projectile here
+        GameObject projectile = Instantiate(projectilePrefab, position, rotation);
+        projectile.transform.Rotate(Spread());
+        projectile.GetComponent<NetworkObject>().Spawn();
+        FireClientRpc(position, rotation);
+    }
+    [ClientRpc]
+    void FireClientRpc(Vector3 position, Quaternion rotation)
+    {
+        //if (IsOwner) return;
+        // fake projectile here?
     }
 
     Vector3 Spread()

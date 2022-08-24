@@ -10,16 +10,9 @@ public class WeaponBehavior : NetworkBehaviour
     enum FireType
     {
         single,
-        burst,
         auto,
-        none
     };
     [SerializeField] FireType firetype;
-
-    public override void OnNetworkSpawn()
-    {
-        //if (!IsOwner) Destroy(this);
-    }
 
     enum ProjectileType
     {
@@ -49,94 +42,62 @@ public class WeaponBehavior : NetworkBehaviour
 
     float lastFired;
     int shotsFired;
+    bool canFire;
 
     private void Start()
     {
         lastFired = -fireDelay -fireRate;
     }
 
-    // this should be handled by events
-    private void Update()
+    public void Fire()
     {
         if (!IsOwner) return;
-        switch (firetype)
+
+        if (firetype == FireType.single)
         {
-            case FireType.none:
-                break;
-            case FireType.single:
-                if (!Input.GetMouseButtonDown(0))
-                {
-                    return;
-                }
-                if (Time.time - lastFired >= fireDelay)
-                {
-                    lastFired = Time.time;
-                    Fire();
-                }
-                break;
-            case FireType.burst:
-                // burst start
-                if (Input.GetMouseButtonDown(0))
-                {
-                    if (Time.time - lastFired >= fireDelay)
-                    {
-                        lastFired = Time.time;
-                        shotsFired++;
-                        Fire();
-                        return;
-                    }
-                }
-                // continue burst
-                if (shotsFired > 0 && shotsFired <= burstAmount)
-                {
-                    if (Time.time - lastFired >= fireRate)
-                    {
-                        shotsFired++;
-                        lastFired = Time.time;
-                        Fire();
-                        if (shotsFired >= burstAmount)
-                        {
-                            shotsFired = 0;
-                        }
-                    }
-                }
-                break;
-            case FireType.auto:
-                if (!Input.GetMouseButton(0))
-                {
-                    return;
-                }
-                if (Time.time - lastFired >= fireRate)
-                {
-                    lastFired = Time.time;
-                    Fire();
-                }
-                break;
+            if (Time.time - lastFired >= fireDelay)
+            {
+                lastFired = Time.time;
+                canFire = true;
+            }
+            else
+            {
+                canFire = false;
+            }
         }
-    }
-    void Fire()
-    {
+        else if (firetype == FireType.auto)
+        {
+            if (Time.time - lastFired >= fireRate)
+            {
+                lastFired = Time.time;
+                canFire= true;
+            }
+            else
+            {
+                canFire= false;
+            }
+        }
+
+        if (canFire != true) return;
         for (int i = 0; i < roundsPerShot; i++)
         {
-            switch(projectileType){
-                case ProjectileType.none:
-                    break;
-                case ProjectileType.projectile:
-                    FireServerRpc(transform.position, transform.rotation);
-                    // fake projectile?
-                    break;
-                case ProjectileType.hitscan:
-                    // TODO
-                    break;
+            if (projectileType == ProjectileType.projectile)
+            {
+                FireServerRpc(transform.position, transform.rotation);
+                // fake projectile?
             }
+            else if (projectileType == ProjectileType.none) return;
+            else if (projectileType == ProjectileType.hitscan) return; // TODO
         }
     }
     [ServerRpc]
-    void FireServerRpc(Vector3 position, Quaternion rotation)
+    void FireServerRpc(Vector3 position, Quaternion rotation, ServerRpcParams serverRpcParams = default)
     {
         // fire the projectile here
         GameObject projectile = Instantiate(projectilePrefab, position, rotation);
+
         projectile.transform.Rotate(Spread());
+        projectile.GetComponent<Projectile>().projectileOwner = serverRpcParams.Receive.SenderClientId;
         projectile.GetComponent<NetworkObject>().Spawn();
         FireClientRpc(position, rotation);
     }

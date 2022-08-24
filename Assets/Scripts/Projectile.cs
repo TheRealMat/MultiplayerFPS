@@ -9,6 +9,7 @@ public class Projectile : NetworkBehaviour
     [SerializeField] float projectilespeed = 10;
     [SerializeField] float projectileLifetime = 5;
 
+    public ulong projectileOwner;
 
     // do SphereCastAll for explosions
 
@@ -32,9 +33,15 @@ public class Projectile : NetworkBehaviour
             // use the third overload to turn off the ignorecollision after half a second or so, maybe check OnTriggerExit
             Physics.IgnoreCollision(other, GetComponent<Collider>());
 
-            // needs a way to prevent shotgun projectiles from colliding with eachother
-
             return;
+        }
+        if (other.gameObject.tag == "Projectile")
+        {
+            // perhaps some projectiles should be able to collide
+            if(other.GetComponent<Projectile>().projectileOwner == this.projectileOwner)
+            {
+                return;
+            }
         }
 
         Destroy(gameObject);

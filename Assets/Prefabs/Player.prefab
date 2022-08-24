@@ -140,6 +140,7 @@ GameObject:
   - component: {fileID: 2580542905393091075}
   - component: {fileID: 5251089361228713414}
   - component: {fileID: 6502801243630596603}
+  - component: {fileID: 1070774719346901061}
   m_Layer: 0
   m_Name: Player
   m_TagString: Player
@@ -262,15 +263,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   walkSpeed: 10
   jumpHeight: 5
-  playerControls:
-    m_Name: Player Controls
-    m_Type: 0
-    m_ExpectedControlType: 
-    m_Id: d7a4422c-e778-44c4-93f9-d5bf108ecafc
-    m_Processors: 
-    m_Interactions: 
-    m_SingletonActionBindings: []
-    m_Flags: 0
 --- !u!114 &5251089361228713414
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -360,11 +352,35 @@ MonoBehaviour:
     m_ActionId: c255e7ea-7dbe-48e5-98fa-fa15c6c76554
     m_ActionName: Player/OpenEscMenu[/Keyboard/escape]
   - m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1070774719346901061}
+        m_TargetAssemblyTypeName: PlayerWeapons, Assembly-CSharp
+        m_MethodName: Fire1
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
     m_ActionId: 91568617-2049-457c-9183-4e176e6c1b69
     m_ActionName: Player/Fire1[/Mouse/leftButton]
   - m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1070774719346901061}
+        m_TargetAssemblyTypeName: PlayerWeapons, Assembly-CSharp
+        m_MethodName: Fire2
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
     m_ActionId: ac496bec-ec10-4c50-bf00-c58fe0adc509
     m_ActionName: Player/Fire2[/Mouse/rightButton]
   - m_PersistentCalls:
@@ -376,6 +392,21 @@ MonoBehaviour:
   m_DefaultActionMap: Player
   m_SplitScreenIndex: -1
   m_Camera: {fileID: 0}
+--- !u!114 &1070774719346901061
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2580542905393091082}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1d22d8b3a4c4781418aa5323d72908dd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  weapons:
+  - {fileID: 3440056817345697971}
+  - {fileID: 0}
 --- !u!1 &2836654019830345355
 GameObject:
   m_ObjectHideFlags: 0
@@ -385,7 +416,9 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8768711721000347397}
+  - component: {fileID: 3440056817345697971}
   - component: {fileID: 8239227419270490104}
+  - component: {fileID: 2420826195254058845}
   m_Layer: 0
   m_Name: Gun
   m_TagString: Untagged
@@ -408,6 +441,20 @@ Transform:
   m_Father: {fileID: 537093908752944008}
   m_RootOrder: -1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &3440056817345697971
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2836654019830345355}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fb85ea01b8150d8419e491dcd125223e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  behavior1: {fileID: 8239227419270490104}
+  behavior2: {fileID: 2420826195254058845}
 --- !u!114 &8239227419270490104
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -423,10 +470,32 @@ MonoBehaviour:
   firetype: 1
   projectileType: 0
   burstAmount: 3
-  fireRate: 0.05
+  fireRate: 0.1
   fireDelay: 0.2
   bulletSpread: 0.5
   roundsPerShot: 1
+  range: 0
+  projectilePrefab: {fileID: 3456199856151225629, guid: f74fafe3384fcc0408d020347f2eaa31,
+    type: 3}
+--- !u!114 &2420826195254058845
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2836654019830345355}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d523daad1ffb46b4d9a58a427b59b887, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  firetype: 0
+  projectileType: 0
+  burstAmount: 0
+  fireRate: 10
+  fireDelay: 1
+  bulletSpread: 0.5
+  roundsPerShot: 10
   range: 0
   projectilePrefab: {fileID: 3456199856151225629, guid: f74fafe3384fcc0408d020347f2eaa31,
     type: 3}

@@ -5,14 +5,15 @@ using Unity.Netcode;
 
 public class Projectile : NetworkBehaviour
 {
-    //[SerializeField] float dropoff = -9.81f;
+    [SerializeField] float dropoff = 0;
     [SerializeField] float projectilespeed = 10;
     [SerializeField] float projectileLifetime = 5;
 
-    public ulong projectileOwner;
+    [HideInInspector] public ulong projectileOwner;
 
     // do SphereCastAll for explosions
 
+    Vector3 projectileVelocity;
 
     private void Start()
     {
@@ -22,6 +23,8 @@ public class Projectile : NetworkBehaviour
     private void Update()
     {
         transform.position += transform.forward * projectilespeed * Time.deltaTime;
+        projectileVelocity.y += dropoff * Time.deltaTime;
+        transform.position += Vector3.down * projectileVelocity.y * Time.deltaTime;
     }
 
     private void OnTriggerEnter(Collider other)

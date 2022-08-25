@@ -469,12 +469,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   firetype: 1
   projectileType: 0
-  burstAmount: 3
   fireRate: 0.1
-  fireDelay: 0.2
   bulletSpread: 0.5
   roundsPerShot: 1
-  range: 0
+  hitscanRange: 0
   projectilePrefab: {fileID: 3456199856151225629, guid: f74fafe3384fcc0408d020347f2eaa31,
     type: 3}
 --- !u!114 &2420826195254058845
@@ -491,13 +489,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   firetype: 0
   projectileType: 0
-  burstAmount: 0
-  fireRate: 10
-  fireDelay: 1
+  fireRate: 2
   bulletSpread: 0.5
-  roundsPerShot: 10
-  range: 0
-  projectilePrefab: {fileID: 3456199856151225629, guid: f74fafe3384fcc0408d020347f2eaa31,
+  roundsPerShot: 1
+  hitscanRange: 0
+  projectilePrefab: {fileID: 3456199856151225629, guid: 4c26a7b09672a21499b4be47e0ded027,
     type: 3}
 --- !u!1 &2915598327334098164
 GameObject:

@@ -35,42 +35,40 @@ public class WeaponBehavior : NetworkBehaviour
 
     float lastFired;
     bool canFire;
+    bool lastFireToggle = true;
 
     private void Start()
     {
         lastFired = -fireRate;
     }
 
-    public void Fire()
+    public void Fire(bool fireToggle)
     {
         if (!IsOwner) return;
 
+        if (Time.time - lastFired >= fireRate)
+        {
+            canFire = true;
+        }
+        else
+        {
+            canFire = false;
+        }
+
         if (firetype == FireType.single)
         {
-            if (Time.time - lastFired >= fireRate)
-            {
-                lastFired = Time.time;
-                canFire = true;
-            }
-            else
+            if (fireToggle == lastFireToggle)
             {
                 canFire = false;
             }
-        }
-        else if (firetype == FireType.auto)
-        {
-            if (Time.time - lastFired >= fireRate)
-            {
-                lastFired = Time.time;
-                canFire= true;
-            }
             else
             {
-                canFire= false;
+                lastFireToggle = fireToggle;
             }
         }
 
         if (canFire != true) return;
+
         for (int i = 0; i < roundsPerShot; i++)
         {
             if (projectileType == ProjectileType.projectile)
@@ -81,6 +79,7 @@ public class WeaponBehavior : NetworkBehaviour
             else if (projectileType == ProjectileType.none) return;
             else if (projectileType == ProjectileType.hitscan) return; // TODO
         }
+        lastFired = Time.time;
     }
     [ServerRpc]
     void FireServerRpc(Vector3 position, Quaternion rotation, ServerRpcParams serverRpcParams = default)

@@ -24,7 +24,7 @@
                     "initialStateCheck": true
                 },
                 {
-                    "name": "OpenEscMenu",
+                    "name": "ToggleEscMenu",
                     "type": "Button",
                     "id": "c255e7ea-7dbe-48e5-98fa-fa15c6c76554",
                     "expectedControlType": "Button",
@@ -70,7 +70,7 @@
                     "interactions": "",
                     "processors": "",
                     "groups": "",
-                    "action": "OpenEscMenu",
+                    "action": "ToggleEscMenu",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },
@@ -150,34 +150,6 @@
                     "action": "Move",
                     "isComposite": false,
                     "isPartOfComposite": true
-                }
-            ]
-        },
-        {
-            "name": "EscMenu",
-            "id": "054abfe2-c249-4625-a0fb-1191fe1dff18",
-            "actions": [
-                {
-                    "name": "New action",
-                    "type": "Button",
-                    "id": "ebcbdcf7-b64e-4303-8bc9-5cdf5eca79c4",
-                    "expectedControlType": "Button",
-                    "processors": "",
-                    "interactions": "",
-                    "initialStateCheck": false
-                }
-            ],
-            "bindings": [
-                {
-                    "name": "",
-                    "id": "eccf8b86-b393-4d25-a5f8-c0476be36101",
-                    "path": "",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "New action",
-                    "isComposite": false,
-                    "isPartOfComposite": false
                 }
             ]
         }

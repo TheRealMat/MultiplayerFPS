@@ -383,10 +383,6 @@ MonoBehaviour:
         m_CallState: 2
     m_ActionId: ac496bec-ec10-4c50-bf00-c58fe0adc509
     m_ActionName: Player/Fire2[/Mouse/rightButton]
-  - m_PersistentCalls:
-      m_Calls: []
-    m_ActionId: ebcbdcf7-b64e-4303-8bc9-5cdf5eca79c4
-    m_ActionName: EscMenu/New action
   m_NeverAutoSwitchControlSchemes: 0
   m_DefaultControlScheme: 
   m_DefaultActionMap: Player
@@ -489,7 +485,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   firetype: 0
   projectileType: 0
-  fireRate: 2
+  fireRate: 1
   bulletSpread: 0.5
   roundsPerShot: 1
   hitscanRange: 0

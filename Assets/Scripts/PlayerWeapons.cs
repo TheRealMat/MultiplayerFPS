@@ -11,6 +11,8 @@ public class PlayerWeapons : MonoBehaviour
     bool firing1;
     bool firing2;
 
+    bool fireToggle1;
+    bool fireToggle2;
     void Start()
     {
         actions = GetComponent<PlayerInput>().actions;
@@ -20,11 +22,11 @@ public class PlayerWeapons : MonoBehaviour
     {
         if (firing1)
         {
-            equippedWeapon.Fire1();
+            equippedWeapon.Fire1(fireToggle1);
         }
         if (firing2)
         {
-            equippedWeapon.Fire2();
+            equippedWeapon.Fire2(fireToggle2);
         }
     }
     public void Fire1(InputAction.CallbackContext context)
@@ -36,6 +38,7 @@ public class PlayerWeapons : MonoBehaviour
         else if (context.canceled)
         {
             firing1 = false;
+            fireToggle1 = !fireToggle1;
         }
 
     }
@@ -48,6 +51,7 @@ public class PlayerWeapons : MonoBehaviour
         else if (context.canceled)
         {
             firing2 = false;
+            fireToggle2 = !fireToggle2;
         }
 
     }

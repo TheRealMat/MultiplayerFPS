@@ -22,31 +22,23 @@ public class WeaponBehavior : NetworkBehaviour
     }
     [SerializeField] ProjectileType projectileType;
 
-    // how many times shot for each burst
-    [SerializeField] int burstAmount;
-
     // how long between each projectile in burst/auto
     [SerializeField] float fireRate = 10f;
-
-    //how long between each burst/single
-    [SerializeField] float fireDelay = 0.1f;
 
     [SerializeField] float bulletSpread = 0.5f;
 
     [SerializeField] int roundsPerShot = 1;
 
-    // only relevant for hitscan
-    [SerializeField] float range;
+    [SerializeField] float hitscanRange;
 
     [SerializeField] GameObject projectilePrefab;
 
     float lastFired;
-    int shotsFired;
     bool canFire;
 
     private void Start()
     {
-        lastFired = -fireDelay -fireRate;
+        lastFired = -fireRate;
     }
 
     public void Fire()
@@ -55,7 +47,7 @@ public class WeaponBehavior : NetworkBehaviour
 
         if (firetype == FireType.single)
         {
-            if (Time.time - lastFired >= fireDelay)
+            if (Time.time - lastFired >= fireRate)
             {
                 lastFired = Time.time;
                 canFire = true;

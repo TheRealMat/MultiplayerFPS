@@ -5,6 +5,7 @@ using Unity.Netcode;
 
 public class Projectile : NetworkBehaviour
 {
+    [SerializeField] int damage = 30;
     [SerializeField] float dropoff = 0;
     [SerializeField] float projectilespeed = 10;
     [SerializeField] float projectileLifetime = 5;
@@ -39,6 +40,7 @@ public class Projectile : NetworkBehaviour
                 Physics.IgnoreCollision(other, GetComponent<Collider>());
                 return;
             }
+            other.GetComponent<Health>().TakeDamage(damage);
         }
         else if (other.gameObject.tag == "Projectile")
         {

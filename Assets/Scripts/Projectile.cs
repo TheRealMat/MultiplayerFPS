@@ -30,15 +30,17 @@ public class Projectile : NetworkBehaviour
     private void OnTriggerEnter(Collider other)
     {
         if (!IsServer) return;
-        // fix this later
+
         if(other.gameObject.tag == "Player")
         {
-            // use the third overload to turn off the ignorecollision after half a second or so, maybe check OnTriggerExit
-            Physics.IgnoreCollision(other, GetComponent<Collider>());
-
-            return;
+            if (projectileOwner == other.gameObject.GetComponent<NetworkObject>().OwnerClientId)
+            {
+                // use the third overload to turn off the ignorecollision after half a second or so, maybe check OnTriggerExit
+                Physics.IgnoreCollision(other, GetComponent<Collider>());
+                return;
+            }
         }
-        if (other.gameObject.tag == "Projectile")
+        else if (other.gameObject.tag == "Projectile")
         {
             // perhaps some projectiles should be able to collide
             if(other.GetComponent<Projectile>().projectileOwner == this.projectileOwner)

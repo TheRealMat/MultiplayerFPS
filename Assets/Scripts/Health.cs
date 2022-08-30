@@ -26,6 +26,13 @@ public class Health : NetworkBehaviour
     {
         if (!IsServer) return;
         currentHealth.Value -= damage;
+
+        if (currentHealth.Value <= 0)
+        {
+            // there should be a death screen first
+            // this should be handled by an event or something
+            FindObjectOfType<SpawnManager>().SpawnPlayer(this.OwnerClientId);
+        }
     }
 
     void OnValueChanged(int previousHealth, int currentHealth)

@@ -18,6 +18,7 @@ public class PlayerWeapons : MonoBehaviour
         actions = GetComponent<PlayerInput>().actions;
         equippedWeapon = weapons[0];
     }
+
     private void Update()
     {
         if (firing1)

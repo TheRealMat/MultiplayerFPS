@@ -35,14 +35,13 @@ public class WeaponBehavior : NetworkBehaviour
 
     float lastFired;
     bool canFire;
-    bool lastFireToggle = true;
 
     private void Start()
     {
         lastFired = -fireRate;
     }
 
-    public void Fire(bool fireToggle)
+    public void Fire(bool firedBefore)
     {
         if (!IsOwner) return;
 
@@ -57,13 +56,9 @@ public class WeaponBehavior : NetworkBehaviour
 
         if (firetype == FireType.single)
         {
-            if (fireToggle == lastFireToggle)
+            if (firedBefore == true)
             {
                 canFire = false;
-            }
-            else
-            {
-                lastFireToggle = fireToggle;
             }
         }
 
